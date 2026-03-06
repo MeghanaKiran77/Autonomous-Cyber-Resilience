@@ -1,0 +1,51 @@
+# Autonomous Cyber-Resilience - Run Configuration
+# All paths are configurable; no hardcoded values in code.
+
+run:
+  run_id: null  # Auto-generated if null
+  experiment_name: "benchmark_run"
+
+paths:
+  drive_root: "./drive"  # Override in Colab to mounted Drive path
+  runs_dir: "runs"
+  datasets_dir: "datasets"
+  targets_dir: "targets"
+  reports_dir: "reports"
+
+llm:
+  provider: "groq"  # groq (free) | openai | claude | deepseek
+  model: "llama-3.1-70b-versatile"  # Groq: llama-3.1-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768
+  # Set API key via environment: export GROQ_API_KEY=your-key-here
+  # Get free key at: https://console.groq.com/keys
+
+targets:
+  - type: "sqli"
+    path: ""
+  - type: "idor"
+    path: ""
+  - type: "xss"
+    path: ""
+
+oracle:
+  success_status_codes: [200]
+  fail_status_codes: [401, 403, 404, 500]
+  success_contains_any: ["LEAK_MARKER"]
+  max_snippet_len: 200
+
+# Single target for minimal non-LLM pipeline
+target_run:
+  name: "flask_sqli_demo"
+  type: "sqli"
+  path: "targets/flask_sqli_demo/app.py"
+  port: 5000
+  exploit_payload: "' OR '1'='1"
+
+sandbox:
+  # TODO: udocker integration
+  enabled: false
+  image: ""
+  timeout_seconds: 300
+
+metrics:
+  codecarbon_enabled: false  # TODO: CodeCarbon integration
+  output_format: "json"

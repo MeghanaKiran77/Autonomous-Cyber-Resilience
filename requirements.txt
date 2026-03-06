@@ -1,0 +1,28 @@
+# Autonomous Cyber-Resilience - Pinned dependencies
+# Python 3.11
+
+# Configuration & validation
+pydantic>=2.5.0,<3.0.0
+PyYAML>=6.0.1,<7.0.0
+python-dotenv>=1.0.0,<2.0.0  # Load environment variables from .env file
+
+# CLI
+click>=8.1.7,<9.0.0
+
+# Structured logging
+structlog>=23.2.0,<25.0.0
+
+# Energy/carbon metrics (TODO: CodeCarbon integration - install when integrating)
+# codecarbon>=2.3.0,<3.0.0
+
+# HTTP requests (for API calls - TODO: LLM integration)
+httpx>=0.25.2,<0.28.0
+
+# LLM clients
+openai>=1.0.0,<2.0.0  # OpenAI SDK (also works with Groq, OpenRouter, etc.)
+
+# Target apps (Flask for SQLi demo)
+flask>=3.0.0,<4.0.0
+
+# Tests
+pytest>=7.4.0,<9.0.0

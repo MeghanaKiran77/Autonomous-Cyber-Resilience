@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomous-cyber-resilience"
+version = "0.1.0"
+description = "Benchmarking Multi-Agent LLM Frameworks for Zero-Day Application-Layer Vulnerability Discovery and Verified Patching"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.11"
+authors = [{name = "Meghana Kiran"}]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agents*", "config*", "llm*", "metrics*", "oracle*", "runner*", "targets*", "utils*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

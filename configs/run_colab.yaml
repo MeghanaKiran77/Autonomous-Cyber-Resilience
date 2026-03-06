@@ -1,0 +1,46 @@
+# Colab config: drive_root points to mounted Google Drive
+
+run:
+  run_id: null
+  experiment_name: "benchmark_run"
+
+paths:
+  drive_root: "/content/drive/MyDrive/AgenticSecurity"
+  runs_dir: "runs"
+  datasets_dir: "datasets"
+  targets_dir: "targets"
+  reports_dir: "reports"
+
+llm:
+  provider: "groq"
+  model: "llama-3.1-70b-versatile"
+
+targets:
+  - type: "sqli"
+    path: ""
+  - type: "idor"
+    path: ""
+  - type: "xss"
+    path: ""
+
+oracle:
+  success_status_codes: [200]
+  fail_status_codes: [401, 403, 404, 500]
+  success_contains_any: ["LEAK_MARKER"]
+  max_snippet_len: 200
+
+target_run:
+  name: "flask_sqli_demo"
+  type: "sqli"
+  path: "targets/flask_sqli_demo/app.py"
+  port: 5000
+  exploit_payload: "' OR '1'='1"
+
+sandbox:
+  enabled: false
+  image: ""
+  timeout_seconds: 300
+
+metrics:
+  codecarbon_enabled: false
+  output_format: "json"
