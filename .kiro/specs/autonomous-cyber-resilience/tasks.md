@@ -76,63 +76,66 @@
   - [ ] 8.4.2 Add retry logic with exponential backoff
   - [ ] 8.4.3 Add cost tracking per call
   - [ ] 8.4.4 Add latency measurement
-- [ ] 8.5 Add structured output parsing
-  - [ ] 8.5.1 Implement JSON schema validation
-  - [ ] 8.5.2 Add error handling for invalid responses
-- [ ] 8.6 Add response caching (optional)
+- [x] 8.5 Add structured output parsing
+  - [x] 8.5.1 Implement JSON schema validation
+  - [x] 8.5.2 Add error handling for invalid responses
+- [ ]* 8.6 Add response caching (optional)
 - [ ] 8.7 Write unit tests for LLM clients
 
 ### 9. Researcher Agent
-- [ ] 9.1 Design Researcher Agent interface
-  - [ ] 9.1.1 Define input schema (target spec, recon data)
-  - [ ] 9.1.2 Define output schema (findings)
-- [ ] 9.2 Implement target analysis logic
-  - [ ] 9.2.1 Create prompt template for target analysis
-  - [ ] 9.2.2 Implement LLM call with structured output
-  - [ ] 9.2.3 Parse and validate findings
-- [ ] 9.3 Add SQLi detection prompts
+- [x] 9.1 Design Researcher Agent interface
+  - [x] 9.1.1 Define input schema (target spec, recon data)
+  - [x] 9.1.2 Define output schema (findings)
+- [x] 9.2 Implement target analysis logic
+  - [x] 9.2.1 Create prompt template for target analysis
+  - [x] 9.2.2 Implement LLM call with structured output
+  - [x] 9.2.3 Parse and validate findings
+- [x] 9.3 Add SQLi detection prompts
 - [ ] 9.4 Add IDOR detection prompts
 - [ ] 9.5 Add XSS detection prompts
-- [ ] 9.6 Write findings to run folder (findings.json)
-- [ ] 9.7 Add structured logging for Researcher decisions
+- [x] 9.6 Write findings to run folder (findings.json)
+- [x] 9.7 Add structured logging for Researcher decisions
 - [ ] 9.8 Write integration tests for Researcher Agent
 
 ### 10. Attacker Agent
-- [ ] 10.1 Design Attacker Agent interface
-  - [ ] 10.1.1 Define input schema (findings)
-  - [ ] 10.1.2 Define output schema (exploits)
-- [ ] 10.2 Implement exploit generation logic
-  - [ ] 10.2.1 Create prompt template for exploit generation
-  - [ ] 10.2.2 Implement LLM call with structured output
-  - [ ] 10.2.3 Parse and validate exploits
-- [ ] 10.3 Add SQLi exploit generation prompts
+- [x] 10.1 Design Attacker Agent interface
+  - [x] 10.1.1 Define input schema (findings)
+  - [x] 10.1.2 Define output schema (exploits)
+- [x] 10.2 Implement exploit generation logic
+  - [x] 10.2.1 Create prompt template for exploit generation
+  - [x] 10.2.2 Implement LLM call with structured output
+  - [x] 10.2.3 Parse and validate exploits
+- [x] 10.3 Add SQLi exploit generation prompts
+  - [x] 10.3.1 Add SQL domain knowledge to system prompt
+  - [x] 10.3.2 Add LIKE query specific guidance
+  - [x] 10.3.3 Implement iterative refinement with Oracle feedback
 - [ ] 10.4 Add IDOR exploit generation prompts
 - [ ] 10.5 Add XSS exploit generation prompts
-- [ ] 10.6 Write exploits to run folder (exploits.json)
-- [ ] 10.7 Add structured logging for Attacker decisions
+- [x] 10.6 Write exploits to run folder (exploits.json)
+- [x] 10.7 Add structured logging for Attacker decisions
 - [ ] 10.8 Write integration tests for Attacker Agent
 
 ### 11. Fixer Agent
-- [ ] 11.1 Design Fixer Agent interface
-  - [ ] 11.1.1 Define input schema (verified exploit, target context)
-  - [ ] 11.1.2 Define output schema (patch)
-- [ ] 11.2 Implement patch generation logic
-  - [ ] 11.2.1 Create prompt template for patch generation
-  - [ ] 11.2.2 Implement LLM call with structured output
-  - [ ] 11.2.3 Parse and validate patch
-- [ ] 11.3 Add SQLi patch generation prompts
+- [x] 11.1 Design Fixer Agent interface
+  - [x] 11.1.1 Define input schema (verified exploit, target context)
+  - [x] 11.1.2 Define output schema (patch)
+- [x] 11.2 Implement patch generation logic
+  - [x] 11.2.1 Create prompt template for patch generation
+  - [x] 11.2.2 Implement LLM call with structured output
+  - [x] 11.2.3 Parse and validate patch
+- [x] 11.3 Add SQLi patch generation prompts
 - [ ] 11.4 Add IDOR patch generation prompts
 - [ ] 11.5 Add XSS patch generation prompts
-- [ ] 11.6 Write patch to run folder (patch_diff.txt)
-- [ ] 11.7 Add structured logging for Fixer decisions
+- [x] 11.6 Write patch to run folder (patch.json, patched_code.py)
+- [x] 11.7 Add structured logging for Fixer decisions
 - [ ] 11.8 Write integration tests for Fixer Agent
 
 ### 12. Agent Pipeline Integration
-- [ ] 12.1 Integrate Researcher Agent into runner
-- [ ] 12.2 Integrate Attacker Agent into runner
-- [ ] 12.3 Integrate Fixer Agent into runner
-- [ ] 12.4 Add agent chaining logic (Researcher → Attacker → Fixer)
-- [ ] 12.5 Add error handling for agent failures
+- [x] 12.1 Integrate Researcher Agent into runner
+- [x] 12.2 Integrate Attacker Agent into runner
+- [x] 12.3 Integrate Fixer Agent into runner
+- [x] 12.4 Add agent chaining logic (Researcher → Attacker → Fixer)
+- [x] 12.5 Add error handling for agent failures
 - [ ] 12.6 Write end-to-end integration tests
 
 ## Phase 3: Additional Targets (NOT STARTED)

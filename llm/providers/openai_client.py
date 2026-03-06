@@ -212,7 +212,19 @@ class OpenAIClient(LLMClient):
 
         # Parse JSON response
         try:
-            parsed = json.loads(response.content)
+            # Strip markdown code blocks if present
+            content = response.content.strip()
+            if content.startswith("```"):
+                # Remove opening ```json or ```
+                lines = content.split("\n")
+                if lines[0].startswith("```"):
+                    lines = lines[1:]
+                # Remove closing ```
+                if lines and lines[-1].strip() == "```":
+                    lines = lines[:-1]
+                content = "\n".join(lines)
+            
+            parsed = json.loads(content)
             log.info("openai_structured_success", parsed_keys=list(parsed.keys()))
             return parsed
         except json.JSONDecodeError as e:
