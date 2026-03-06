@@ -248,6 +248,8 @@ def _run_llm_pipeline(
             # Generate patch for first successful exploit (or all if time permits)
             from agents.fixer import generate_patch
             
+            patches_generated = []
+            
             for exploit_info in successful_exploits[:1]:  # Start with first exploit
                 exploit_num = exploit_info["exploit_number"]
                 log.info(f"fixer_generating_patch_{exploit_num}")
@@ -264,8 +266,95 @@ def _run_llm_pipeline(
                         f"fixer_patch_generated_{exploit_num}",
                         root_cause=patch.get("root_cause", "")[:100],
                     )
+                    patches_generated.append({
+                        "exploit": exploit_info["exploit"],
+                        "exploit_num": exploit_num,
+                        "patch": patch,
+                    })
                 else:
                     log.warning(f"fixer_patch_failed_{exploit_num}")
+            
+            # Patch Oracle: Verify patches work
+            if patches_generated:
+                log.info("patch_oracle_starting", patch_count=len(patches_generated))
+                
+                for patch_info in patches_generated:
+                    exploit_num = patch_info["exploit_num"]
+                    patch = patch_info["patch"]
+                    exploit = patch_info["exploit"]
+                    
+                    # Apply patch to target
+                    log.info(f"applying_patch_{exploit_num}")
+                    
+                    patched_code = patch.get("patched_code", "")
+                    if patched_code:
+                        # Write patched code to temporary location
+                        patched_target_path = target_path.parent / f"app_patched_{exploit_num}.py"
+                        patched_target_path.write_text(patched_code)
+                        
+                        # Stop original target
+                        log.info("stopping_original_target")
+                        stop_target(proc)
+                        
+                        # Start patched target on different port
+                        patched_port = tr.port + 100
+                        patched_target_spec = {
+                            "type": tr.type,
+                            "name": f"{tr.name}_patched",
+                            "path": str(patched_target_path.relative_to(project_root)),
+                            "port": patched_port,
+                        }
+                        
+                        from config.schema import TargetRunConfig
+                        patched_tr = TargetRunConfig(**patched_target_spec)
+                        
+                        log.info("starting_patched_target", port=patched_port)
+                        patched_proc = start_target(patched_tr, run_folder, project_root)
+                        
+                        try:
+                            patched_base_url = f"http://127.0.0.1:{patched_port}"
+                            
+                            if wait_for_health(patched_base_url, timeout=30.0):
+                                # Verify patch with Oracle
+                                from oracle.verification import verify_patch
+                                
+                                log.info(f"patch_oracle_verifying_{exploit_num}")
+                                
+                                patch_result = verify_patch(
+                                    exploit=exploit,
+                                    patch=patch,
+                                    patched_target_url=patched_base_url,
+                                    oracle_config=config.oracle,
+                                )
+                                
+                                # Write patch verification results
+                                (run_folder / f"patch_{exploit_num}_verification.json").write_text(
+                                    json.dumps(patch_result, indent=2)
+                                )
+                                
+                                log.info(
+                                    f"patch_oracle_result_{exploit_num}",
+                                    suppressed=patch_result.get("suppressed"),
+                                    regression=patch_result.get("regression"),
+                                    effective=patch_result.get("patch_effective"),
+                                )
+                            else:
+                                log.error("patched_target_health_failed")
+                        
+                        finally:
+                            # Stop patched target
+                            stop_target(patched_proc)
+                            
+                            # Clean up patched file
+                            if patched_target_path.exists():
+                                patched_target_path.unlink()
+                            
+                            # Restart original target for any remaining work
+                            proc = start_target(tr, run_folder, project_root)
+                            if not wait_for_health(base_url, timeout=30.0):
+                                log.error("original_target_restart_failed")
+            else:
+                log.info("patch_oracle_skipped", reason="no patches generated")
         else:
             log.info("fixer_skipped", reason="no successful exploits to patch")
 

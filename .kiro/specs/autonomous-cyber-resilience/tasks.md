@@ -186,20 +186,20 @@
 ## Phase 4: Patch Verification (NOT STARTED)
 
 ### 16. Patch Oracle
-- [ ] 16.1 Design Patch Oracle interface
-  - [ ] 16.1.1 Define input schema (exploit, patch, target)
-  - [ ] 16.1.2 Define output schema (suppressed, regression, evidence)
-- [ ] 16.2 Implement exploit suppression verification
-  - [ ] 16.2.1 Re-run original exploit against patched target
-  - [ ] 16.2.2 Verify exploit now fails
-  - [ ] 16.2.3 Generate suppression evidence
-- [ ] 16.3 Implement regression verification
-  - [ ] 16.3.1 Define benign test cases per target type
-  - [ ] 16.3.2 Run benign tests against patched target
-  - [ ] 16.3.3 Verify benign tests still pass
-  - [ ] 16.3.4 Generate regression evidence
-- [ ] 16.4 Write patch verification results to run folder
-- [ ] 16.5 Add structured logging for Patch Oracle decisions
+- [x] 16.1 Design Patch Oracle interface
+  - [x] 16.1.1 Define input schema (exploit, patch, target)
+  - [x] 16.1.2 Define output schema (suppressed, regression, evidence)
+- [x] 16.2 Implement exploit suppression verification
+  - [x] 16.2.1 Re-run original exploit against patched target
+  - [x] 16.2.2 Verify exploit now fails
+  - [x] 16.2.3 Generate suppression evidence
+- [x] 16.3 Implement regression verification
+  - [x] 16.3.1 Define benign test cases per target type
+  - [x] 16.3.2 Run benign tests against patched target
+  - [x] 16.3.3 Verify benign tests still pass
+  - [x] 16.3.4 Generate regression evidence
+- [x] 16.4 Write patch verification results to run folder
+- [x] 16.5 Add structured logging for Patch Oracle decisions
 - [ ] 16.6 Write integration tests for Patch Oracle
 
 ### 17. Patch Application
